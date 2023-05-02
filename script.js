@@ -1,4 +1,13 @@
 // INITIALIZE LOCAL STORAGE
+function initializePost(){
+    if (localStorage.getItem("posts") !== null){
+        return
+    } else if(localStorage.getItem("posts") === null){
+        localStorage.setItem("posts", JSON.stringify([]))
+    } else{
+        return "Something is wrong. Please try again"
+    }
+}
 
 // example data REMOVE AT THE END
 let posts = [
