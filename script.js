@@ -11,8 +11,8 @@ function initializePost(){
 
 // example data REMOVE AT THE END
 let posts = [
-    {id: 1, author: "Hector", date: new Date().toString(), content: "string"},
-    {id: 2, author: "Gorganzola", date: new Date().toString(), content: "string2"}];
+    {id: 1, author: "Hector", date: new Date().toString(), content: "Any Questions?", tags: ["no", "are you sure", "okay"]},
+    {id: 2, author: "Erin", date: new Date().toString(), content: "Finish your resumes", tags:[]}]
 
 localStorage.setItem("posts", JSON.stringify(posts));
 
