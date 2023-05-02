@@ -13,8 +13,8 @@ initializePost();
 
 // example data REMOVE AT THE END
 let posts = [
-    {id: 1, author: "Hector", date: new Date().toString(), content: "string"},
-    {id: 2, author: "Gorganzola", date: new Date().toString(), content: "string2"}];
+    {id: 1, author: "Hector", date: new Date().toString(), content: "string", tag: "string"},
+    {id: 2, author: "Gorganzola", date: new Date().toString(), content: "string2", tag: "string2"}];
 
 localStorage.setItem("posts", JSON.stringify(posts));
 
@@ -24,8 +24,6 @@ localStorage.setItem("posts", JSON.stringify(posts));
 // CREATE function
 function createPost(){
 
-    let x = 1; 
-
     //ties variable to value of textarea box
     let contenttext = document.getElementById("newPost").value;
 
@@ -33,14 +31,16 @@ function createPost(){
     let authortext = document.getElementById("newPostAuthor").value;
 
     //ties variable to current array in storage
-    let output = JSON.parse(localStorage.getItem('posts'));
+    
+    //let output = JSON.parse(localStorage.getItem("posts"));
+    localStorage.getItem('posts');
 
     //ties variable to random number under 100,000
     let idtext = Math.floor(Math.random() * 100000);
 
     //for loop that iterates through the current array in storage and checks if the random number is already assigned to another object in the array
-    for (let i = 0; i < output.length; i++) {
-    if (output[i].id === idtext) {
+    for (let i = 0; i < posts.length; i++) {
+    if (posts[i].id === idtext) {
         idtext = Math.floor(Math.random() * 100000);
         i = -1;
         continue;
@@ -50,10 +50,10 @@ function createPost(){
     let object = {id: idtext, author: authortext, date: new Date().toString(), content: contenttext};
 
     //pushes new object into the array
-    output.push(object);
+    posts.push(object);
 
     //saves new array into local storage
-    localStorage.setItem("posts", JSON.stringify(output));
+    localStorage.setItem("posts", JSON.stringify(posts));
 
     //clears textarea box
     document.getElementById("newPost").value = '';
