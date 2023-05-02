@@ -102,4 +102,23 @@ deletePost(2)
 console.log(JSON.parse(localStorage.getItem('posts'))) 
 
 // SEARCH function
+function searchPosts(){
+    let keyWord = document.getElementById("keyWordEntry").value
+        console.log(keyWord)
 
+    current_posts = JSON.parse(localStorage.getItem("posts"))
+    // console.log(current_posts[1])
+    
+    if (keyWord && keyWord.length > 0){
+        keyWord = keyWord.toLowerCase();
+        let post = current_posts.filter(current_post => current_post.tags === keyWord);
+        console.log(post)
+        return post 
+    } else {
+        alert ("Please enter a valid search")
+    }
+}
+
+
+let searchButton = document.getElementById("keyWordSearch")
+searchButton.addEventListener("click", searchPosts)
