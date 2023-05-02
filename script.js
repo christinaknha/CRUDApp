@@ -9,8 +9,6 @@ function initializePost(){
     }
 }
 
-initializePost();
-
 // example data REMOVE AT THE END
 let posts = [
     {id: 1, author: "Hector", date: new Date().toString(), content: "string"},
@@ -18,8 +16,11 @@ let posts = [
 
 localStorage.setItem("posts", JSON.stringify(posts));
 
-// READ function 
-
+// READ function
+getAllPost = () => {
+    let allPost = JSON.parse(localStorage.getItem("posts"));
+    return allPost;
+};
 
 // CREATE function
 function createPost(){
@@ -78,10 +79,13 @@ function validatePost(){
 const el = document.getElementById("submit");
 el.addEventListener("click", validatePost);
 
-
-
 // UPDATE function
-
+function updatePost(id, updatedContent) {
+  let posts = JSON.parse(localStorage.getItem("posts"));
+  let postIndex = posts.findIndex(post => post.id === id);
+  posts[postIndex].content = updatedContent;
+  localStorage.setItem("posts", JSON.stringify(posts));
+}
 
 // DELETE function
 function deletePost(id) {
