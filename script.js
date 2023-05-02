@@ -17,6 +17,7 @@ let posts = [
 localStorage.setItem("posts", JSON.stringify(posts));
 
 // READ function
+    
 getAllPost = () => {
     let allPost = JSON.parse(localStorage.getItem("posts"));
     return allPost;
@@ -80,6 +81,8 @@ const el = document.getElementById("submit");
 el.addEventListener("click", validatePost);
 
 // UPDATE function
+    // needs button with event listener
+    // How are we going to demonstrate this in the presentation?
 
 function updatePost(id, updatedContent) {
   //Gets the post data from the local storage.
