@@ -81,7 +81,12 @@ el.addEventListener("click", validatePost);
 
 
 // UPDATE function
-
+function updatePost(id, updatedContent) {
+  let posts = JSON.parse(localStorage.getItem("posts"));
+  let postIndex = posts.findIndex(post => post.id === id);
+  posts[postIndex].content = updatedContent;
+  localStorage.setItem("posts", JSON.stringify(posts));
+}
 
 // DELETE function
 
