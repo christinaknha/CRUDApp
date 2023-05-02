@@ -3,11 +3,18 @@ body {
     font-family: 'Montserrat', serif;
 }
 
+.company{
+    display:inline-flex;
+    align-items: center;
+    
+}
+
 .searchIcon{
     width: 10px;
 }
 
 .logo{
-    width: 80px;
+    width: 20%;
     height: auto;
+    padding-right: 10px;
 }
