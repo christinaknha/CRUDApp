@@ -24,6 +24,8 @@ localStorage.setItem("posts", JSON.stringify(posts));
 // CREATE function
 function createPost(){
 
+    let x = 1; 
+
     //ties variable to value of textarea box
     let contenttext = document.getElementById("newPost").value;
 
