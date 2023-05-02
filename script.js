@@ -19,7 +19,10 @@ let posts = [
 localStorage.setItem("posts", JSON.stringify(posts));
 
 // READ function
-
+getAllPost = () => {
+    let allPost = JSON.parse(localStorage.getItem("posts"));
+    return allPost;
+};
 
 // CREATE function
 function createPost(){
