@@ -80,6 +80,7 @@ const el = document.getElementById("submit");
 el.addEventListener("click", validatePost);
 
 // UPDATE function
+
 function updatePost(id, updatedContent) {
   let posts = JSON.parse(localStorage.getItem("posts"));
   let postIndex = posts.findIndex(post => post.id === id);
