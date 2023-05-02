@@ -18,7 +18,7 @@ let posts = [
 
 localStorage.setItem("posts", JSON.stringify(posts));
 
-// READ function
+// READ function 
 
 
 // CREATE function
@@ -84,7 +84,18 @@ el.addEventListener("click", validatePost);
 
 
 // DELETE function
+function deletePost(id) {
+    // retrieves from array, filters array, and stores back in localStorage
+    const posts = JSON.parse(localStorage.getItem('posts'));
+    const postUpdate = posts.filter(item => item.id !== id);
+    
+    localStorage.setItem('posts', JSON.stringify(postUpdate));
+    
+};
+console.log(JSON.parse(localStorage.getItem('posts')))
 
+deletePost(2)
+console.log(JSON.parse(localStorage.getItem('posts'))) 
 
 // SEARCH function
 
