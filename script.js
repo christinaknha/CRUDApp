@@ -46,13 +46,8 @@ getAllPost = () => {
 
 getAllPost();
 
-// CREATE function
 
-//restrieves array of posts
-// function getPostData(){
-//     currentPostData = JSON.parse(localStorage.getItem("posts"));
-//     return currentPostData;
-// }
+// CREATE function
 
 //pushes new array to local storage
 function updatePostData(PostObject){ 
@@ -109,9 +104,11 @@ function validatePost(){
     //if statement that checks if the textarea box is empty or if the name box is empty and sends alert
     if (x != "" && y != "") {
     createPost();
+
         let feed = document.getElementById("feed");
     feed.innerHTML="",
     getAllPost();
+
 
     } else {
         alert("Please fill in all fields")
@@ -150,6 +147,7 @@ deletePost(2)
 console.log(JSON.parse(localStorage.getItem('posts'))) 
 
 // SEARCH function
+
 // SEARCH function
 function searchPosts(){
     // pulls user input and stores in in keyWord
@@ -192,3 +190,4 @@ function searchValidation(){
 
 let searchButton = document.getElementById("searchButton")
 searchButton.addEventListener("click", searchValidation)
+
