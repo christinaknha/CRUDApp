@@ -199,8 +199,6 @@ function initializePost(){
   function searchPosts(){
     // pulls user input and stores in in keyWord
     let keyWord = document.getElementById("keyWordEntry").value
-    // parses stored local data
-    // current_posts = JSON.parse(localStorage.getItem("posts"))
         // finds all tags that includes keyWord
         let post = postData.filter(post => post.tags.includes(keyWord));
         // resets the page 
@@ -209,21 +207,25 @@ function initializePost(){
         for (j = post.length-1; j >= 0; j --){
             let feed = document.getElementById("feed");
             let newPost = document.createElement("div");
+            let editB = '<button id="' + postData[j].id2 +' " onClick=editButton(this.id) " style="background-color: #003D5B " class="btn btn-primary btn-lg" type="button">Update & Post</button>'
+            let deleteB = '<button id="'+ postData[j].id  +'" onclick="deletePost(this.id)"style="background-color: #003D5B " class="btn m-3 btn-primary btn-lg" type="button">' + 'Delete Post</button>'
+    
             newPost.innerHTML = '<div class="p-5 mb-4 bg-body-tertiary rounded-3">'+  
             '<div class="container-fluid py-5">' +
             '<h1  class="display-5 fw-bold">' + post[j].author + '</h1>' +
             '<p class="post">' + post[j].date +'</p>' + '<p class="post">' + post[j].content +'</p>' +
             '<p class="post">' + '#' + post[j].tags +'</p>' + 
-            '<button id="editButton" class="btn btn-primary btn-lg" type="button">Edit Post</button>' +
-            '<button id="deleteButton" class="btn btn-primary btn-lg" type="button">Delete Post</button>' +
+            editB + deleteB +
+            // '<button id="editButton" class="btn btn-primary btn-lg" type="button">Edit Post</button>' +
+            // '<button id="deleteButton" class="btn btn-primary btn-lg" type="button">Delete Post</button>' +
             '</div>' +
             '</div>'
             feed.appendChild(newPost)
+            // getAllPost();
             // reset keyWord
-            keyWord = "";
             }
-    }
-  // }
+            keyWord = "";
+  }
   
   // Validation for searching keyword
   function searchValidation(){
