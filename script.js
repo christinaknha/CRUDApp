@@ -13,7 +13,6 @@ initializePost();
 
 // example data REMOVE AT THE END
  let postData = JSON.parse(localStorage.getItem("posts"));
-
 // READ function
 
 
