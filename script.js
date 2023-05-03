@@ -9,6 +9,7 @@ function initializePost(){
     }
 }
 
+initializePost();
 // example data REMOVE AT THE END
 
  let postData = JSON.parse(localStorage.getItem("posts"));
@@ -16,18 +17,16 @@ function initializePost(){
 // READ function
     
 getAllPost = () => {
-    // pulls all post from local storage
-    let allPost = JSON.parse(localStorage.getItem("posts"));
     // loops through all post starting from most recent post, pulling necessary info
-    for (let i = allPost.length-1; i >= 0; i--){
+    for (let i = postData.length-1; i >= 0; i--){
         let feed = document.getElementById("feed");
         let newPost = document.createElement("div");    
-        let authorToAdd = allPost[i].author;
-        let dateToAdd = allPost[i].date;
-        let postToAdd = allPost[i].content;
-        let tagsToAdd = allPost[i].tags;
+        let authorToAdd = postData[i].author;
+        let dateToAdd = postData[i].date;
+        let postToAdd = postData[i].content;
+        let tagsToAdd = postData[i].tags;
         let editB = '<button id="editButton' + [i] +'" class="btn btn-primary btn-lg" type="button">Edit Post</button>'
-        let deleteB = '<button id="deleteButton'+ [i] +'"class="btn btn-primary btn-lg" type="button">' + 'Delete Post</button>'
+        let deleteB = '<button id="'+ postData[i].id  +'" onclick="deletePost(this.id)" class="btn btn-primary btn-lg" type="button">' + 'Delete Post</button>'
         // creates new HTML using post pulled
         newPost.innerHTML = '<div class="p-5 mb-4 bg-body-tertiary rounded-3">'+  
           '<div class="container-fluid py-5">' +
@@ -80,8 +79,11 @@ function createPost() {
     //creates a new random id
     let randomid = assignRandomId();
 
+    //ties variable to value of tag box
+    let tagsText = document.getElementById("newTags").value;
+
     //declares a new object consisting of id, author, date, and content, and tag
-    let PostObject = {id: randomid, author: authortext, date: new Date().toString(), content: contenttext, tag: "string"};
+    let PostObject = {id: randomid, author: authortext, date: new Date().toString(), content: contenttext, tag: tagsText};
 
     //adds the object to the array
     updatePostData(PostObject);
@@ -91,6 +93,9 @@ function createPost() {
 
     //clears name box
     document.getElementById("newPostAuthor").value = '';
+
+    //clears tag box
+    document.getElementById("newTags").value = '';
 }
 
 // // VALIDATE FUNCTION
@@ -105,7 +110,7 @@ function validatePost(){
     if (x != "" && y != "") {
     createPost();
 
-        let feed = document.getElementById("feed");
+    let feed = document.getElementById("feed");
     feed.innerHTML="",
     getAllPost();
 
@@ -122,40 +127,45 @@ el.addEventListener("click", validatePost);
     // How are we going to demonstrate this in the presentation?
 
 function updatePost(id, updatedContent) {
-  //Gets the post data from the local storage.
-let posts = JSON.parse(localStorage.getItem("posts"));
+//   //Gets the post data from the local storage.
+// let posts = JSON.parse(localStorage.getItem("posts"));
 //Find the post that needs to be updated by its id.
-let postIndex = posts.findIndex(post => post.id === id);
+let postIndex = postData.findIndex(post => post.id === id);
 //update the content of the post.
-posts[postIndex].content = updatedContent;
+postData[postIndex].content = updatedContent;
 // save the updated content to local storage.
-localStorage.setItem("posts", JSON.stringify(posts));
+localStorage.setItem("posts", JSON.stringify(postData));
 }
 
 // DELETE function
-function deletePost(id) {
+function reply_click(clicked_id){
+    console.log(clicked_id)
+    return(clicked_id)
+}
+function deletePost(x) {
     // retrieves from array, filters array, and stores back in localStorage
-    const posts = JSON.parse(localStorage.getItem('posts'));
-    const postUpdate = posts.filter(item => item.id !== id);
-    
-    localStorage.setItem('posts', JSON.stringify(postUpdate));
-    
+    let y = reply_click(x)
+    for(let i = 0; i < postData.length; i++){
+        if (y == postData[i].id){
+            // console.log(postData.splice(i, 1));
+            postData.splice(i,1);
+            console.log(postData)
+            localStorage.setItem('posts', JSON.stringify(postData))
+                }
+    }
+    let feed = document.getElementById("feed");
+    feed.innerHTML=""
+    getAllPost();
 };
-console.log(JSON.parse(localStorage.getItem('posts')))
-
-deletePost(2)
-console.log(JSON.parse(localStorage.getItem('posts'))) 
-
-// SEARCH function
 
 // SEARCH function
 function searchPosts(){
     // pulls user input and stores in in keyWord
     let keyWord = document.getElementById("keyWordEntry").value
     // parses stored local data
-    current_posts = JSON.parse(localStorage.getItem("posts"))
+    // current_posts = JSON.parse(localStorage.getItem("posts"))
         // finds all tags that includes keyWord
-        let post = current_posts.filter(current_post => current_post.tags.includes(keyWord));
+        let post = postData.filter(post => post.tags.includes(keyWord));
         // resets the page 
         feed.innerHTML=""
         // 
@@ -172,8 +182,9 @@ function searchPosts(){
             '</div>' +
             '</div>'
             feed.appendChild(newPost)
+            // reset keyWord
+            keyWord = "";
             }
-            console.log(post)
     }
 // }
 
