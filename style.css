@@ -17,7 +17,6 @@ body {
     width: 20%;
     height: auto;
     padding-right: 10px;
-}
 
  /* box-sizing} border-box} */
 
@@ -88,3 +87,4 @@ body {
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
 } 
+

@@ -7,6 +7,7 @@ function initializePost(){
     } else{
         return "Something is wrong. Please try again"
     }
+
   }
   initializePost();
   // example data REMOVE AT THE END
@@ -17,7 +18,7 @@ function initializePost(){
     
   getAllPost = () => {
     // pulls all post from local storage
-    
+ 
     // loops through all post starting from most recent post, pulling necessary info
     for (let i = postData.length-1; i >= 0; i--){
         let feed = document.getElementById("feed");
@@ -42,6 +43,7 @@ function initializePost(){
         // appends it to the screen
         feed.appendChild(newPost)
     }
+
   }
   
   getAllPost();
@@ -76,6 +78,7 @@ function initializePost(){
   
     //ties variable to value of name box
     let authortext = document.getElementById("newPostAuthor").value;
+
   
     //creates a new random id
     let randomid = assignRandomId();
@@ -103,6 +106,7 @@ function initializePost(){
   
   // // VALIDATE FUNCTION
   function validatePost(){
+
     //ties variable to value of textarea box
     let x = document.getElementById("newPost").value;
   
@@ -112,6 +116,7 @@ function initializePost(){
     //if statement that checks if the textarea box is empty or if the name box is empty and sends alert
     if (x != "" && y != "") {
     createPost();
+
   
     let feed = document.getElementById("feed");
     feed.innerHTML="",
@@ -167,7 +172,6 @@ function initializePost(){
     feed.innerHTML = '';
     getAllPost();
     }
-
   }
   
   // DELETE function
