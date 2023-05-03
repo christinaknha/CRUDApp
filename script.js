@@ -9,12 +9,16 @@ function initializePost(){
     }
 }
 
-initializePost();
-
 // example data REMOVE AT THE END
- let postData = JSON.parse(localStorage.getItem("posts"));
-// READ function
 
+ let postData = JSON.parse(localStorage.getItem("posts"));
+
+// READ function
+    
+getAllPost = () => {
+    let allPost = JSON.parse(localStorage.getItem("posts"));
+    return allPost;
+};
 
 // CREATE function
 
@@ -45,6 +49,7 @@ function assignRandomId() {
 }
 
 function createPost() {
+
     //ties variable to value of textarea box
     let contenttext = document.getElementById("newPost").value;
 
@@ -85,11 +90,52 @@ function validatePost(){
 const el = document.getElementById("submit");
 el.addEventListener("click", validatePost);
 
-// // UPDATE function
+// UPDATE function
+    // needs button with event listener
+    // How are we going to demonstrate this in the presentation?
 
+function updatePost(id, updatedContent) {
+  //Gets the post data from the local storage.
+let posts = JSON.parse(localStorage.getItem("posts"));
+//Find the post that needs to be updated by its id.
+let postIndex = posts.findIndex(post => post.id === id);
+//update the content of the post.
+posts[postIndex].content = updatedContent;
+// save the updated content to local storage.
+localStorage.setItem("posts", JSON.stringify(posts));
+}
 
-// // DELETE function
+// DELETE function
+function deletePost(id) {
+    // retrieves from array, filters array, and stores back in localStorage
+    const posts = JSON.parse(localStorage.getItem('posts'));
+    const postUpdate = posts.filter(item => item.id !== id);
+    
+    localStorage.setItem('posts', JSON.stringify(postUpdate));
+    
+};
+console.log(JSON.parse(localStorage.getItem('posts')))
 
+deletePost(2)
+console.log(JSON.parse(localStorage.getItem('posts'))) 
 
-// // SEARCH function
+// SEARCH function
+function searchPosts(){
+    let keyWord = document.getElementById("keyWordEntry").value
+        console.log(keyWord)
 
+    current_posts = JSON.parse(localStorage.getItem("posts"))
+    // console.log(current_posts[1])
+    
+    if (keyWord && keyWord.length > 0){
+        keyWord = keyWord.toLowerCase();
+        let post = current_posts.filter(current_post => current_post.tags === keyWord);
+        console.log(post)
+        return post 
+    } else {
+        alert ("Please enter a valid search")
+    }
+}
+
+let searchButton = document.getElementById("keyWordSearch")
+searchButton.addEventListener("click", searchPosts)

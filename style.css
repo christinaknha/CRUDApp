@@ -1,5 +1,20 @@
 body {
     display: flex;
-    font-family: 'Monserrat', serif;
+    font-family: 'Montserrat', serif;
+}
 
+.company{
+    display:inline-flex;
+    align-items: center;
+    
+}
+
+.searchIcon{
+    width: 10px;
+}
+
+.logo{
+    width: 20%;
+    height: auto;
+    padding-right: 10px;
 }
