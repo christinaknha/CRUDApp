@@ -16,17 +16,38 @@ function initializePost(){
 // READ function
     
 getAllPost = () => {
+    // pulls all post from local storage
     let allPost = JSON.parse(localStorage.getItem("posts"));
-    return allPost;
-};
+    // loops through all post starting from most recent post, pulling necessary info
+    for (let i = allPost.length-1; i >= 0; i--){
+        let feed = document.getElementById("feed");
+        let newPost = document.createElement("div");    
+        let authorToAdd = allPost[i].author;
+        let dateToAdd = allPost[i].date;
+        let postToAdd = allPost[i].content;
+        let tagsToAdd = allPost[i].tags;
+        let editB = '<button id="editButton' + [i] +'" class="btn btn-primary btn-lg" type="button">Edit Post</button>'
+        let deleteB = '<button id="deleteButton'+ [i] +'"class="btn btn-primary btn-lg" type="button">' + 'Delete Post</button>'
+        // creates new HTML using post pulled
+        newPost.innerHTML = '<div class="p-5 mb-4 bg-body-tertiary rounded-3">'+  
+          '<div class="container-fluid py-5">' +
+          '<h1  class="display-5 fw-bold">' + authorToAdd + '</h1>' +
+          '<p class="post">' + dateToAdd +'</p>' + '<p class="post">' + postToAdd +'</p>' +
+          '<p class="post">' + '#' + tagsToAdd +'</p>'  
+        //   '<button id="editButton" class="btn btn-primary btn-lg" type="button">Edit Post</button>' +
+        //   '<button id="deleteButton" class="btn btn-primary btn-lg" type="button">Delete Post</button>'
+        + editB + deleteB +
+        '</div>' +
+        '</div>'
+        // appends it to the screen
+        feed.appendChild(newPost)
+    }
+}
+
+getAllPost();
+
 
 // CREATE function
-
-//restrieves array of posts
-function getPostData(){
-    currentPostData = JSON.parse(localStorage.getItem("posts"));
-    return currentPostData;
-}
 
 //pushes new array to local storage
 function updatePostData(PostObject){ 
@@ -83,6 +104,12 @@ function validatePost(){
     //if statement that checks if the textarea box is empty or if the name box is empty and sends alert
     if (x != "" && y != "") {
     createPost();
+
+        let feed = document.getElementById("feed");
+    feed.innerHTML="",
+    getAllPost();
+
+
     } else {
         alert("Please fill in all fields")
 }}
@@ -120,22 +147,47 @@ deletePost(2)
 console.log(JSON.parse(localStorage.getItem('posts'))) 
 
 // SEARCH function
+
+// SEARCH function
 function searchPosts(){
+    // pulls user input and stores in in keyWord
     let keyWord = document.getElementById("keyWordEntry").value
-        console.log(keyWord)
-
+    // parses stored local data
     current_posts = JSON.parse(localStorage.getItem("posts"))
-    // console.log(current_posts[1])
-    
-    if (keyWord && keyWord.length > 0){
-        keyWord = keyWord.toLowerCase();
-        let post = current_posts.filter(current_post => current_post.tags === keyWord);
-        console.log(post)
-        return post 
-    } else {
-        alert ("Please enter a valid search")
+        // finds all tags that includes keyWord
+        let post = current_posts.filter(current_post => current_post.tags.includes(keyWord));
+        // resets the page 
+        feed.innerHTML=""
+        // 
+        for (j = post.length-1; j >= 0; j --){
+            let feed = document.getElementById("feed");
+            let newPost = document.createElement("div");
+            newPost.innerHTML = '<div class="p-5 mb-4 bg-body-tertiary rounded-3">'+  
+            '<div class="container-fluid py-5">' +
+            '<h1  class="display-5 fw-bold">' + post[j].author + '</h1>' +
+            '<p class="post">' + post[j].date +'</p>' + '<p class="post">' + post[j].content +'</p>' +
+            '<p class="post">' + '#' + post[j].tags +'</p>' + 
+            '<button id="editButton" class="btn btn-primary btn-lg" type="button">Edit Post</button>' +
+            '<button id="deleteButton" class="btn btn-primary btn-lg" type="button">Delete Post</button>' +
+            '</div>' +
+            '</div>'
+            feed.appendChild(newPost)
+            }
+            console.log(post)
     }
-}
+// }
 
-let searchButton = document.getElementById("keyWordSearch")
-searchButton.addEventListener("click", searchPosts)
+// Validation for searching keyword
+function searchValidation(){
+    let keyWord = document.getElementById("keyWordEntry").value
+    if (keyWord != "" && keyWord.length > 0){
+        searchPosts();
+    } else if (keyWord == ""){
+        alert("Please enter a valid search")
+    }
+    }
+
+
+let searchButton = document.getElementById("searchButton")
+searchButton.addEventListener("click", searchValidation)
+
