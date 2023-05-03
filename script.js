@@ -8,7 +8,7 @@ function initializePost(){
         return "Something is wrong. Please try again"
     }
 }
-
+initializePost();
 // example data REMOVE AT THE END
 
  let postData = JSON.parse(localStorage.getItem("posts"));
@@ -17,15 +17,15 @@ function initializePost(){
     
 getAllPost = () => {
     // pulls all post from local storage
-    let allPost = JSON.parse(localStorage.getItem("posts"));
+    let  = JSON.parse(localStorage.getItem("posts"));
     // loops through all post starting from most recent post, pulling necessary info
-    for (let i = allPost.length-1; i >= 0; i--){
+    for (let i = postData.length-1; i >= 0; i--){
         let feed = document.getElementById("feed");
         let newPost = document.createElement("div");    
-        let authorToAdd = allPost[i].author;
-        let dateToAdd = allPost[i].date;
-        let postToAdd = allPost[i].content;
-        let tagsToAdd = allPost[i].tags;
+        let authorToAdd = postData[i].author;
+        let dateToAdd = postData[i].date;
+        let postToAdd = postData[i].content;
+        let tagsToAdd = postData[i].tags;
         let editB = '<button id="editButton' + [i] +'" class="btn btn-primary btn-lg" type="button">Edit Post</button>'
         let deleteB = '<button id="deleteButton'+ [i] +'"class="btn btn-primary btn-lg" type="button">' + 'Delete Post</button>'
         // creates new HTML using post pulled
