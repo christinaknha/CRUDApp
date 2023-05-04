@@ -7,122 +7,119 @@ function initializePost(){
     } else{
         return "Something is wrong. Please try again"
     }
+}
+initializePost()
 
-  }
-  initializePost();
-  // example data REMOVE AT THE END
-  
-  let postData = JSON.parse(localStorage.getItem("posts"));
-  
-  // READ function
-    
-  getAllPost = () => {
-    // pulls all post from local storage
- 
-    // loops through all post starting from most recent post, pulling necessary info
+let postData = JSON.parse(localStorage.getItem("posts"));
+
+//CODE TO READ AND GENERATE POSTS
+function getAllPost () {
+    // LOOPS THROUGH ALL POST STARTING FROM MOST RECENT
+
     for (let i = postData.length-1; i >= 0; i--){
         let feed = document.getElementById("feed");
-        let newPost = document.createElement("div");    
+        let newPost = document.createElement("div");  
         let authorToAdd = postData[i].author;
         let dateToAdd = postData[i].date;
         let postToAdd = postData[i].content;
         let tagsToAdd = postData[i].tags;
-        let editB = '<button id="' + postData[i].id2 +' " onClick=editButton(this.id) " style="background-color: #003D5B " class="btn btn-primary btn-lg" type="button">Update & Post</button>'
+
+        let editB = '<button id="' + postData[i].id2 +' " onClick=renderUpdatePage(this.id) " style="background-color: #003D5B " class="btn btn-primary btn-lg" type="button">Edit Post</button>'
         let deleteB = '<button id="'+ postData[i].id  +'" onclick="deletePost(this.id)"style="background-color: #003D5B " class="btn m-3 btn-primary btn-lg" type="button">' + 'Delete Post</button>'
-        // creates new HTML using post pulled
-        newPost.innerHTML = '<div class="p-5 mb-4 bg-body-tertiary rounded-3">'+  
-          '<div class="container-fluid py-5">' +
-          '<h1  class="display-5 fw-bold">' + authorToAdd + '</h1>' +
-          '<p class="post">' + dateToAdd +'</p>' + '<p class="post">' + postToAdd +'</p>' +
-          '<p class="post">' + '#' + tagsToAdd +'</p>'  
-        //   '<button id="editButton" class="btn btn-primary btn-lg" type="button">Edit Post</button>' +
-        //   '<button id="deleteButton" class="btn btn-primary btn-lg" type="button">Delete Post</button>'
+        // CREATES NEW HTML USING POST PULLED
+        newPost.innerHTML = 
+        '<div class="p-5 mb-4 bg-body-tertiary rounded-3">'+  
+        '<div class="container-fluid py-5">' +
+        '<h1  class="display-5 fw-bold">' + authorToAdd + '</h1>' +
+        '<p class="post">' + dateToAdd +'</p>' + 
+        '<p class="post">' + postToAdd +'</p>' +
+        '<p class="post">' + tagsToAdd +'</p>'  
+
         + editB + deleteB +
         '</div>' +
         '</div>'
-        // appends it to the screen
+        // PRINTS HTML TO SCREEN
         feed.appendChild(newPost)
     }
+}
 
-  }
-  
-  getAllPost();
-  
-  
-  // CREATE function
-  
-  //pushes new array to local storage
-  function updatePostData(PostObject){ 
+// PRINTS ALL POST TO THE SCREEN
+getAllPost();
+
+// CODE FOR CREATING NEW POST 
+//FUNCTION THAT PUSHES NEW ARRAY TO LOCAL STORAGE
+function updatePostData(PostObject){ 
     postData.push(PostObject);
     localStorage.setItem("posts", JSON.stringify(postData));
-  }
+}
   
-  function assignRandomId() {
-    //declares a new random id
+//FUNCTION THAT GENERATES A RANDOM NUMBER AND ASSIGNS IT TO POSTS
+function assignRandomId() {
+    //DECLARES A NEW RANDOM ID
     let idtext = Math.floor(Math.random() * 100000);
   
-    //loops through the array and checks if the id is already in the array and assigns a new random id if true
+    // LOOPS THROUGH THE ARRAY AND CHECKS IF THE ID IS ALREADY USED AND ASSIGNS NEW RANDOM ID IF TRUE
     for (let i = 0; i < postData.length; i++) {
         if (postData[i].id === idtext) {
             idtext = Math.floor(Math.random() * 100000);
             i = -1;
             continue;
-        }}
+        }
+    }
     return idtext;
-  }
+}
   
-  function createPost() {
+// FUNCTION TO CREATE POSTS
+function createPost() {
   
-    //ties variable to value of textarea box
+    //TIES VARIABLE TO VALUE OF TEXTAREA BOX
     let contenttext = document.getElementById("newPost").value;
   
-    //ties variable to value of name box
+    //TIES VARIABLE TO VALUE OF NAME BOXties
     let authortext = document.getElementById("newPostAuthor").value;
 
   
-    //creates a new random id
+    //CREATES TWO NEW RANDOM IDS
     let randomid = assignRandomId();
 
     let randomid2 = assignRandomId();
-  
-    //ties variable to value of tag box
+    
+    //TIES VARIABLE TO VALUE OF TAG BOX
     let tagsText = document.getElementById("newTags").value;
-  
-    //declares a new object consisting of id, author, date, and content, and tag
+    tagsText = tagsText.split(",")
+    
+    //DECLARES A NEW OBJECT CONSISTING OF ID, ID2, AUTHOR, DATE, CONTENT, AND TAGS
     let PostObject = {id: randomid, id2: randomid2, author: authortext, date: new Date().toString(), content: contenttext, tags: tagsText};
   
-    //adds the object to the array
+    //ADDS THE OBJECT TO THE ARRAY
     updatePostData(PostObject);
   
-    //clears textarea box
+    //CLEARS THE TEXTAREA BOX
     document.getElementById("newPost").value = '';
   
-    //clears name box
+    //CLEARS NAME BOX
     document.getElementById("newPostAuthor").value = '';
   
-    //clears tag box
+    //CLEARS TAG BOX
     document.getElementById("newTags").value = '';
   }
   
-  // // VALIDATE FUNCTION
-  function validatePost(){
+// VALIDATE FUNCTION
+function validatePost(){
 
-    //ties variable to value of textarea box
+    //TIES VARIABLE TO VALUE OF TEXTAREA BOX 
     let x = document.getElementById("newPost").value;
   
-    //ties variable to value of name box
+    //TIES VARIABLE TO VALUE OF NAME BOX
     let y = document.getElementById("newPostAuthor").value;
   
-    //if statement that checks if the textarea box is empty or if the name box is empty and sends alert
+    //CHECKS TO SEE IF THE TEXT AREA BOX IS EMPTY OR IF NAME BOX IS EMPTY
     if (x != "" && y != "") {
-    createPost();
-
-  
-    let feed = document.getElementById("feed");
-    feed.innerHTML="",
-    getAllPost();
-  
-  
+        createPost();
+        // CLEARS PAGE AND RERENDERS POSTS
+        let feed = document.getElementById("feed");
+        feed.innerHTML="";
+        getAllPost();
     } else {
         alert("Please fill in all fields")
   }}
@@ -130,115 +127,169 @@ function initializePost(){
   const el = document.getElementById("submit");
   el.addEventListener("click", validatePost);
   
-  // UPDATE function
-    // needs button with event listener
-    // How are we going to demonstrate this in the presentation?
-  
-  function updatePost(id, updatedContent) {
-  //   //Gets the post data from the local storage.
-  // let posts = JSON.parse(localStorage.getItem("posts"));
-  //Find the post that needs to be updated by its id.
-  let postIndex = postData.findIndex(post => post.id === id);
-  //update the content of the post.
-  postData[postIndex].content = updatedContent;
-  // save the updated content to local storage.
-  localStorage.setItem("posts", JSON.stringify(postData));
-  }
 
-  function clicked(click_id2) {
-    console.log(click_id2)
-    return (click_id2);
-  }
-
-
-  function closeForm() {
-    document.getElementById("myForm").style.display = "none";
-  } 
-
-  function editButton(e) {
-    document.getElementById("myForm").style.display = "block";
-    let contentEdit = document.getElementById("contentEdit").value
-    let tagEdit = document.getElementById("tagEdit").value
-    let y = clicked(e);
-    for(let i = 0; i < postData.length; i++){
-      if (y == postData[i].id2){
-          postData[i].content = contentEdit;
-          postData[i].tags = tagEdit;
-          localStorage.setItem('posts', JSON.stringify(postData))
-          document.getElementById("contentEdit").value = '';
-          document.getElementById("tagEdit").value = '';
-              }
-    let feed = document.getElementById("feed");
-    feed.innerHTML = '';
-    getAllPost();
-    }
-  }
-  
-  // DELETE function
-  function reply_click(clicked_id){
+// CODE FOR UPDATING AN OLD POST 
+let neededId;
+let neededPost;
+// GRABS THE ID2 OF THE POST THAT WAS CLICKED ON
+function reply_click(clicked_id){
     console.log(clicked_id)
     return(clicked_id)
-  }
-  function deletePost(x) {
-    // retrieves from array, filters array, and stores back in localStorage
+}
+
+function renderUpdatePage(a){
+    // STORES ID2 GRABBED IN VARIABLE
+    neededId = reply_click(a)
+
+    // FILTERS POST FOR POST WITH MATCHING ID2
+    neededPost = postData.filter(post => post.id2 == neededId);
+    
+    // STORES DATA FROM PREVIOUS POST INTO VARIABLES
+    let authorToAdd = neededPost[0].author;
+    let postToAdd = neededPost[0].content;
+    let tagsToAdd = neededPost[0].tags;
+    
+    // CLEARS THE POST ON PAGE
+    let feed = document.getElementById("feed");
+    feed.innerHTML = "";
+
+    // CREATES INPUT TEXT FIELD POPULATED WITH AUTHOR DATA
+    let inputName = document.createElement("input");
+    inputName.type= "text";
+    inputName.className = "form-control mb-3";
+    inputName.value = authorToAdd;
+
+    // CREATES TEXT AREA FIELD POPULATED WITH POST DATA
+    let textareaPost = document.createElement("textarea");
+    textareaPost.className = "form-control-lg mb-3";
+    textareaPost.value = postToAdd;
+
+    // CREATES INPUT TEXT AREA FIELD POPULATED WITH TAG DATA
+    let inputTags = document.createElement("textarea");
+    inputTags.className = "text";
+    inputName.className = "form-control mb-3";
+    inputTags.value = tagsToAdd;
+
+    // CLEARS PAGE AND REPOPULATES TO LET EDITS OCCUR
+    // feed.innerHTML="";
+    let newPost = document.createElement("div");  
+    newPost.innerHTML = 
+    '<input id="authorEdit" maxlength="30" type="text" class="form-control mb-3" id="newPostAuthor" value="' + authorToAdd + '">' +
+    '<textarea id="contentEdit" maxlength="200" class="form-control-lg mb-3" id="newPost" rows="3" cols="40">' + postToAdd + '</textarea>' +
+    '<input id="tagsEdit" maxlength="30" type="text" class="form-control mb-3" id="newTags" value="' + tagsToAdd +'">' +
+    '<button id="submitUpdate" onclick="completeUpdate(this.id)" style="font-family: \'Montserrat\';" type="button" class="col-3 btn btn-warning align-self-end">Update Post</button>'
+    feed.appendChild(newPost)
+}
+
+// UPDATES POST WITH NEW INFORMATION
+function completeUpdate(){
+    // CREATES VARIABLES THAT STORE DATA INSIDE TEXT FIELDS
+    let authorEdit = document.getElementById("authorEdit").value;
+    let contentEdit = document.getElementById("contentEdit").value;
+    let tagsEdit = document.getElementById("tagsEdit").value;
+   
+    // FINDS THE POST INDEX
+    let neededIndex;
+    for (let i = 0; i < postData.length; i ++){
+        if (postData[i].id2 == neededId)
+        neededIndex = i;
+    }
+
+    if(authorEdit != "" && contentEdit != ""){
+        // UPDATES LOCAL STORAGE COMPONENTS
+        postData[neededIndex].author = authorEdit;
+        postData[neededIndex].content = contentEdit;
+        postData[neededIndex].tags = tagsEdit
+
+        // SAVES TO LOCAL STORAGE
+        localStorage.setItem('posts', JSON.stringify(postData))
+    } else {
+        alert("Please fill in all fields")
+    }
+    // CLEARS PAGE AND RERENDERS POSTS
+    let feed = document.getElementById("feed");
+    feed.innerHTML="";
+    getAllPost();
+
+}
+
+// CODE FOR DELETING A POST 
+function deletePost(x){
+
+    // STORES ID OF POST IN A VARIABLE
     let y = reply_click(x)
+
+    // SEARCHES LOCAL STORAGE FOR MATCHING ID
     for(let i = 0; i < postData.length; i++){
         if (y == postData[i].id){
-            // console.log(postData.splice(i, 1));
+            //SPLICES POST WITH MATCHING ID FROM LOCAL STORAGE
             postData.splice(i,1);
-            console.log(postData)
+
+            // UPDATES LOCAL STORAGE
             localStorage.setItem('posts', JSON.stringify(postData))
-                }
+        }
     }
+    // CLEARS PAGE AND RERENDERS POSTS
     let feed = document.getElementById("feed");
     feed.innerHTML=""
     getAllPost();
   };
-  
-  // SEARCH function
-  function searchPosts(){
-    // pulls user input and stores in in keyWord
-    let keyWord = document.getElementById("keyWordEntry").value
-        // finds all tags that includes keyWord
-        let post = postData.filter(post => post.tags.includes(keyWord));
-        // resets the page 
-        feed.innerHTML=""
-        // 
-        for (j = post.length-1; j >= 0; j --){
-            let feed = document.getElementById("feed");
-            let newPost = document.createElement("div");
-            let editB = '<button id="' + postData[j].id2 +' " onClick=editButton(this.id) " style="background-color: #003D5B " class="btn btn-primary btn-lg" type="button">Update & Post</button>'
-            let deleteB = '<button id="'+ postData[j].id  +'" onclick="deletePost(this.id)"style="background-color: #003D5B " class="btn m-3 btn-primary btn-lg" type="button">' + 'Delete Post</button>'
+
+// CODE FOR KEYWORD SEARCHING 
+function searchPosts(){
     
-            newPost.innerHTML = '<div class="p-5 mb-4 bg-body-tertiary rounded-3">'+  
-            '<div class="container-fluid py-5">' +
-            '<h1  class="display-5 fw-bold">' + post[j].author + '</h1>' +
-            '<p class="post">' + post[j].date +'</p>' + '<p class="post">' + post[j].content +'</p>' +
-            '<p class="post">' + '#' + post[j].tags +'</p>' + 
-            editB + deleteB +
-            // '<button id="editButton" class="btn btn-primary btn-lg" type="button">Edit Post</button>' +
-            // '<button id="deleteButton" class="btn btn-primary btn-lg" type="button">Delete Post</button>' +
-            '</div>' +
-            '</div>'
-            feed.appendChild(newPost)
-            // getAllPost();
-            // reset keyWord
-            }
-            keyWord = "";
-  }
-  
-  // Validation for searching keyword
-  function searchValidation(){
+    // STORES USER INPUT IN A VARIABLE
     let keyWord = document.getElementById("keyWordEntry").value
+
+    // FILTERS LOCAL STORAGE TO FIND TAGS THAT INCLUDE KEYWORD
+    let post = postData.filter(post => post.tags.includes(keyWord));
+
+    // CLEARS THE PAGE
+    let feed = document.getElementById("feed");
+    feed.innerHTML=""
+
+    // LOOPS THROUGH POST ARRAY AND RENDERS STARTING WITH MOST RECENT POST
+    for(let i = post.length - 1; i >= 0; i--){
+        let editB = '<button id="' + postData[i].id2 +' " onClick=renderUpdatePage(this.id) " style="background-color: #003D5B " class="btn btn-primary btn-lg" type="button">Edit Post</button>'
+        let deleteB = '<button id="'+ postData[i].id  +'" onclick="deletePost(this.id)"style="background-color: #003D5B " class="btn m-3 btn-primary btn-lg" type="button">' + 'Delete Post</button>'
+        
+        // TEMPLATE FOR POSTS TO RENDER
+        let newPost = document.createElement("div");  
+        newPost.innerHTML = 
+        '<div class="p-5 mb-4 bg-body-tertiary rounded-3">'+  
+        '<div class="container-fluid py-5">' +
+        '<h1  class="display-5 fw-bold">' + post[i].author + '</h1>' +
+        '<p class="post">' + post[i].date +'</p>' + 
+        '<p class="post">' + post[i].content +'</p>' +
+        '<p class="post">' + post[i].tags +'</p>' + 
+        editB + deleteB +
+        '</div>' +
+        '</div>'
+        
+        // RENDERS POSTS TO PAGE
+        let feed = document.getElementById("feed");
+        feed.appendChild(newPost);
+        
+    }
+    // RESET KEYWORD TO BLANK
+    keyWord = "";
+}
+
+function searchValidation(){
+    // STORES USER INPUT INTO A VARIABLE
+    let keyWord = document.getElementById("keyWordEntry").value
+
+    // CHECKS TO SEE IF USER INPUT HAS CHARACTERS AND THEN SEARCH POST
     if (keyWord != "" && keyWord.length > 0){
         searchPosts();
+
+    // IF NOT, ALERT WINDOW POPS UP
     } else if (keyWord == ""){
         alert("Please enter a valid search")
     }
-    }
-  
-  
-  let searchButton = document.getElementById("searchButton")
-  searchButton.addEventListener("click", searchValidation)
-  
-  
+}
+
+// CREATE EVENT LISTENER FOR SEARCH BUTTON
+let searchButton = document.getElementById("searchButton")
+searchButton.addEventListener("click", searchValidation)
+
