@@ -15,6 +15,7 @@ let postData = JSON.parse(localStorage.getItem("posts"));
 //CODE TO READ AND GENERATE POSTS
 function getAllPost () {
     // LOOPS THROUGH ALL POST STARTING FROM MOST RECENT
+
     for (let i = postData.length-1; i >= 0; i--){
         let feed = document.getElementById("feed");
         let newPost = document.createElement("div");  
@@ -22,6 +23,7 @@ function getAllPost () {
         let dateToAdd = postData[i].date;
         let postToAdd = postData[i].content;
         let tagsToAdd = postData[i].tags;
+
         let editB = '<button id="' + postData[i].id2 +' " onClick=renderUpdatePage(this.id) " style="background-color: #003D5B " class="btn btn-primary btn-lg" type="button">Edit Post</button>'
         let deleteB = '<button id="'+ postData[i].id  +'" onclick="deletePost(this.id)"style="background-color: #003D5B " class="btn m-3 btn-primary btn-lg" type="button">' + 'Delete Post</button>'
         // CREATES NEW HTML USING POST PULLED
@@ -32,6 +34,7 @@ function getAllPost () {
         '<p class="post">' + dateToAdd +'</p>' + 
         '<p class="post">' + postToAdd +'</p>' +
         '<p class="post">' + tagsToAdd +'</p>'  
+
         + editB + deleteB +
         '</div>' +
         '</div>'
@@ -80,7 +83,7 @@ function createPost() {
     let randomid = assignRandomId();
 
     let randomid2 = assignRandomId();
-  
+    
     //TIES VARIABLE TO VALUE OF TAG BOX
     let tagsText = document.getElementById("newTags").value;
     tagsText = tagsText.split(",")
@@ -232,7 +235,6 @@ function deletePost(x){
     getAllPost();
   };
 
-
 // CODE FOR KEYWORD SEARCHING 
 function searchPosts(){
     
@@ -290,3 +292,4 @@ function searchValidation(){
 // CREATE EVENT LISTENER FOR SEARCH BUTTON
 let searchButton = document.getElementById("searchButton")
 searchButton.addEventListener("click", searchValidation)
+
